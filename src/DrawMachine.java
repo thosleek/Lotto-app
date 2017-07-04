@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class DrawMachine {
     int quantity, range;
 
@@ -18,28 +20,51 @@ public class DrawMachine {
     }
 
     public DrawMachine(int quantity, int range) {
-        this.quantity = quantity;
-        this.range = range;
+        // TODO: break(?) constructor when inputs no-good
+        if(range >= quantity){
+            this.quantity = quantity;
+            this.range = range;
+        } else { System.out.println("Unable to draw: check quantity and range"); }
+
     }
 
     private int[] drawNumbers(){
-        int[] numbers;
-        //TODO:  draw unique <quantity> numbers from 1 to <range>
-        numbers = new int[] {2,55,33,22,11};
-        numbers[0] = this.getQuantity();
-        numbers[4] = this.getRange();
+        int numbersQuantityToDraw = this.getQuantity();
+        int numbersRangeToDraw = this.getRange();
+        int[] numbersDrawn = new int[numbersQuantityToDraw];
 
-        return numbers;
+
+        int numbersAlreadyDrawn = 0;
+        int tempNumber;
+        while(numbersAlreadyDrawn < numbersQuantityToDraw){
+            tempNumber = (int) ((Math.random() * (numbersRangeToDraw)) + 1);
+            if(numbersAlreadyDrawn == 0){
+                numbersAlreadyDrawn = 1;
+                numbersDrawn[0] = tempNumber;
+            } else {
+                for(int i = 0; i < numbersAlreadyDrawn; i++){ // look for doubles
+                    if(numbersDrawn[i] == tempNumber){
+                        break;
+                    } else if(i == numbersAlreadyDrawn - 1) { // all checks, no doubles, add number to array
+                        numbersDrawn[numbersAlreadyDrawn] = tempNumber;
+                        numbersAlreadyDrawn++;
+                    }
+                }
+            }
+        }
+
+        Arrays.sort(numbersDrawn);
+        return numbersDrawn;
     }
 
     public static void main(String[] args){
 
-        DrawMachine drawMachine = new DrawMachine(5,40);
+        DrawMachine drawMachine = new DrawMachine(6,46);
         int[] numbers;
         numbers = drawMachine.drawNumbers();
 
         Draw todayDraw = new Draw(numbers);
-        todayDraw.setDrawId(todayDraw.newDrawId());
+        //todayDraw.setDrawId(todayDraw.newDrawId());
 
         todayDraw.display();
     }

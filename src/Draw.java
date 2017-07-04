@@ -1,7 +1,7 @@
 public class Draw {
 
     public int drawId;
-    public int[] drawNumbers = new int[5];
+    public int[] drawNumbers;
 
 
     public int getDrawId() {
@@ -26,7 +26,9 @@ public class Draw {
     }
 
     public Draw(int[] drawNumbers) {
+
         this.drawNumbers = drawNumbers;
+        this.drawId = this.newDrawId();
     }
 
     public void display(){
@@ -38,7 +40,7 @@ public class Draw {
     }
 
     public int newDrawId(){
-        int drawId = 100;
+        int drawId = 101;
         //TODO: checks files, looks for highest no, returns new draw id
         return drawId;
     }
